@@ -58,13 +58,15 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
       </div>
       <div className="space-y-6">
         <Tabs defaultValue="summary" onValueChange={(value) => setActiveTab(value)}>
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="summary">Summary</TabsTrigger>
-            <TabsTrigger value="insights">Insights</TabsTrigger>
-            <TabsTrigger value="quiz">Quiz</TabsTrigger>
-            <TabsTrigger value="forecast">Forecast</TabsTrigger>
-            <TabsTrigger value="anomalies">Anomalies</TabsTrigger>
-          </TabsList>
+          <div className="relative w-full overflow-x-auto">
+            <TabsList className="grid w-full grid-cols-5 min-w-[500px]">
+              <TabsTrigger value="summary">Summary</TabsTrigger>
+              <TabsTrigger value="insights">Insights</TabsTrigger>
+              <TabsTrigger value="quiz">Quiz</TabsTrigger>
+              <TabsTrigger value="forecast">Forecast</TabsTrigger>
+              <TabsTrigger value="anomalies">Anomalies</TabsTrigger>
+            </TabsList>
+          </div>
           <TabsContent value="summary" className="mt-4">
             <SummaryView file={file} isActive={activeTab === 'summary'} />
           </TabsContent>

@@ -8,6 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Auth from "./pages/Auth";
 import { MainLayout } from "./components/MainLayout";
 import UpdatePassword from "./pages/UpdatePassword";
+import LandingPage from "./pages/Landing";
 
 const queryClient = new QueryClient();
 
@@ -19,9 +20,10 @@ const App = () => (
       <BrowserRouter>
         <AuthProvider>
           <Routes>
+            <Route path="/" element={<LandingPage />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/update-password" element={<UpdatePassword />} />
-            <Route path="/*" element={<MainLayout />} />
+            <Route path="/dashboard/*" element={<MainLayout />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>
@@ -30,3 +32,4 @@ const App = () => (
 );
 
 export default App;
+

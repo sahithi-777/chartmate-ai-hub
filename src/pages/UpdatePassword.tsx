@@ -34,7 +34,7 @@ const UpdatePassword = () => {
       toast({ title: 'Error', description: error.message, variant: 'destructive' });
     } else {
       toast({ title: 'Success', description: 'Your password has been updated successfully.' });
-      navigate('/');
+      navigate('/dashboard');
     }
   };
 

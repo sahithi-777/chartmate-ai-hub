@@ -3,6 +3,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { LogOut, User } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   title: string;
@@ -10,13 +11,19 @@ interface HeaderProps {
 
 export function Header({ title }: HeaderProps) {
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <header className="sticky top-0 z-10 flex h-[57px] items-center gap-4 border-b bg-background px-4">
       <SidebarTrigger className="lg:hidden" />
       <h1 className="flex-1 text-xl font-semibold">{title}</h1>
       {user ? (
-        <Button variant="ghost" size="icon" className="rounded-full" onClick={signOut}>
+        <Button variant="ghost" size="icon" className="rounded-full" onClick={handleSignOut}>
           <LogOut className="h-5 w-5" />
           <span className="sr-only">Logout</span>
         </Button>

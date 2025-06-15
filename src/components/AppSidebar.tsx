@@ -13,6 +13,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { AreaChart, Bot, HelpCircle, Lightbulb, LineChart, LogOut, Settings, Zap } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const menuItems = [
   { icon: Bot, label: "Summary", href: "#" },
@@ -23,13 +26,21 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
+
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
-        <div className="flex items-center gap-2">
+        <Link to="/dashboard" className="flex items-center gap-2">
           <AreaChart className="text-primary h-8 w-8" />
           <h1 className="text-2xl font-semibold">ChartMate++</h1>
-        </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent className="p-4">
         <SidebarGroup>
@@ -62,7 +73,7 @@ export function AppSidebar() {
             </Button>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Button variant="ghost" className="w-full justify-start gap-2 text-base font-normal text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+            <Button onClick={handleSignOut} variant="ghost" className="w-full justify-start gap-2 text-base font-normal text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
               <LogOut className="h-5 w-5" />
               <span>Logout</span>
             </Button>
