@@ -1,3 +1,4 @@
+
 import { Lightbulb } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGeminiAnalysis } from '@/hooks/useGeminiAnalysis';
@@ -36,7 +37,7 @@ export function InsightsView({ file }: InsightsViewProps) {
                 <AlertDescription>
                     {error instanceof Error ? error.message : "An unknown error occurred."}
                 </AlertDescription>
-            </Alert>
+            </Alergitt>
         )}
         {data && <p className="text-muted-foreground whitespace-pre-wrap">{data}</p>}
       </CardContent>
