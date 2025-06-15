@@ -67,6 +67,9 @@ const Auth = () => {
   const signInWithGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+      },
     });
     if (error) {
       toast({ title: 'Error signing in with Google', description: error.message, variant: 'destructive' });
