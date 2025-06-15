@@ -17,7 +17,7 @@ const LandingPage = () => {
   }
 
   if (user) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return (
@@ -56,7 +56,7 @@ const LandingPage = () => {
                 </div>
                 <div className="flex flex-col gap-4 min-[400px]:flex-row">
                   <Button asChild size="lg">
-                    <Link to="/dashboard">Upload Your First Chart</Link>
+                    <Link to="/">Upload Your First Chart</Link>
                   </Button>
                 </div>
               </div>

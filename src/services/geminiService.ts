@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 
 async function fileToBase64(file: File): Promise<string> {
@@ -16,6 +15,22 @@ export async function analyzeChartWithGemini(file: File, prompt: string) {
 
     const { data, error } = await supabase.functions.invoke('gemini-analysis', {
         body: { prompt, imageBase64, imageMimeType },
+    });
+
+    if (error) {
+        throw new Error(`Edge function invocation failed: ${error.message}`);
+    }
+
+    if (data.error) {
+        throw new Error(`Gemini analysis failed: ${data.error}`);
+    }
+    
+    return data.text;
+}
+
+export async function analyzeTextWithGemini(prompt: string) {
+    const { data, error } = await supabase.functions.invoke('gemini-text-analysis', {
+        body: { prompt },
     });
 
     if (error) {

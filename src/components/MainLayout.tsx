@@ -1,5 +1,5 @@
 
-import { Navigate, Route, Routes, Link } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Loader2 } from "lucide-react";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -9,6 +9,7 @@ import NotFound from "@/pages/NotFound";
 import Profile from "@/pages/Profile";
 import Guide from "@/pages/Guide";
 import History from "@/pages/History";
+import SurpriseMe from "@/pages/SurpriseMe";
 
 export const MainLayout = () => {
   const { user, loading } = useAuth();
@@ -35,6 +36,7 @@ export const MainLayout = () => {
             <Route path="profile" element={<Profile />} />
             <Route path="guide" element={<Guide />} />
             <Route path="history" element={<History />} />
+            <Route path="surprise-me" element={<SurpriseMe />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
