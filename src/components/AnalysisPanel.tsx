@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/contexts/AuthContext";
@@ -7,7 +6,8 @@ import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { ZoomIn, ZoomOut, Save, Loader2 } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { ZoomIn, ZoomOut, Save, Loader2, Share, Copy, FileText, FileJson } from "lucide-react";
 import { SummaryView } from "./features/SummaryView";
 import { InsightsView } from "./features/InsightsView";
 import { QuizView } from "./features/QuizView";
@@ -32,6 +32,96 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
   const [activeTab, setActiveTab] = useState("summary");
   const { user } = useAuth();
   const queryClient = useQueryClient();
+
+  const handleCopy = (text: string | undefined, type: string) => {
+    if (text) {
+      navigator.clipboard.writeText(text);
+      toast.success(`${type} copied to clipboard!`);
+    } else {
+      toast.error(`No ${type.toLowerCase()} to copy. Please generate it first.`);
+    }
+  };
+
+  const handleCopySummary = () => {
+    const summary = queryClient.getQueryData<string>(['gemini-analysis', file.name, PROMPTS.summary]);
+    handleCopy(summary, 'Summary');
+  };
+
+  const handleCopyInsights = () => {
+    const insights = queryClient.getQueryData<string>(['gemini-analysis', file.name, PROMPTS.insights]);
+    handleCopy(insights, 'Insights');
+  };
+
+  const handleDownloadTxt = () => {
+    const summary = queryClient.getQueryData<string>(['gemini-analysis', file.name, PROMPTS.summary]);
+    const insights = queryClient.getQueryData<string>(['gemini-analysis', file.name, PROMPTS.insights]);
+    const anomalies = queryClient.getQueryData<string>(['gemini-analysis', file.name, PROMPTS.anomalies]);
+
+    let content = `Chart Analysis for: ${file.name}\n\n`;
+    if(summary) content += `--- SUMMARY ---\n${summary}\n\n`;
+    if(insights) content += `--- INSIGHTS ---\n${insights}\n\n`;
+    if(anomalies) content += `--- ANOMALIES ---\n${anomalies}\n\n`;
+
+    if (content.length <= `Chart Analysis for: ${file.name}\n\n`.length) {
+        toast.error("No analysis to download. Please generate some first.");
+        return;
+    }
+
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${file.name.split('.')[0]}_analysis.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    toast.success("Analysis downloaded as .txt file.");
+  };
+
+  const handleDownloadJson = () => {
+    const summary = queryClient.getQueryData<string>(['gemini-analysis', file.name, PROMPTS.summary]);
+    const insights = queryClient.getQueryData<string>(['gemini-analysis', file.name, PROMPTS.insights]);
+    const quizData = queryClient.getQueryData<string>(['gemini-analysis', file.name, PROMPTS.quiz]);
+    const anomaliesData = queryClient.getQueryData<string>(['gemini-analysis', file.name, PROMPTS.anomalies]);
+
+    let parsedQuizData = null;
+    if (quizData) {
+        try {
+            const jsonString = quizData.match(/```json\n([\s\S]*?)\n```/)?.[1] || quizData;
+            parsedQuizData = JSON.parse(jsonString);
+        } catch (e) {
+            console.error("Failed to parse quiz data for JSON export:", e);
+            parsedQuizData = { raw: quizData };
+        }
+    }
+    
+    const analysisObject = {
+        fileName: file.name,
+        generatedAt: new Date().toISOString(),
+        summary: summary || null,
+        insights: insights || null,
+        quiz: parsedQuizData || null,
+        anomalies: anomaliesData ? { text: anomaliesData } : null,
+    };
+    
+    if (!analysisObject.summary && !analysisObject.insights && !analysisObject.quiz && !analysisObject.anomalies) {
+        toast.error("No analysis to download. Please generate some first.");
+        return;
+    }
+
+    const jsonString = JSON.stringify(analysisObject, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${file.name.split('.')[0]}_analysis.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    toast.success("Analysis downloaded as .json file.");
+  };
 
   const saveAnalysisMutation = useMutation({
     mutationFn: async () => {
@@ -108,6 +198,42 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
                 )}
                 Save Analysis
               </Button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    <Share className="mr-2 h-4 w-4" />
+                    Export
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-60">
+                  <div className="grid gap-4">
+                    <div className="space-y-2">
+                      <h4 className="font-medium leading-none">Export & Share</h4>
+                      <p className="text-sm text-muted-foreground">
+                        Export your analysis in various formats.
+                      </p>
+                    </div>
+                    <div className="grid gap-2">
+                      <Button variant="ghost" size="sm" className="justify-start" onClick={handleCopySummary}>
+                        <Copy className="mr-2 h-4 w-4" />
+                        Copy Summary
+                      </Button>
+                      <Button variant="ghost" size="sm" className="justify-start" onClick={handleCopyInsights}>
+                        <Copy className="mr-2 h-4 w-4" />
+                        Copy Insights
+                      </Button>
+                      <Button variant="ghost" size="sm" className="justify-start" onClick={handleDownloadTxt}>
+                        <FileText className="mr-2 h-4 w-4" />
+                        Download as .txt
+                      </Button>
+                      <Button variant="ghost" size="sm" className="justify-start" onClick={handleDownloadJson}>
+                        <FileJson className="mr-2 h-4 w-4" />
+                        Download as .json
+                      </Button>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
               <Button variant="outline" size="icon" onClick={() => setZoom(z => z * 1.2)}>
                 <ZoomIn className="h-4 w-4" />
               </Button>
