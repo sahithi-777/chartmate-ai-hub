@@ -1,8 +1,25 @@
 
 import { Lightbulb } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useApiKey } from '@/contexts/ApiKeyContext';
+import { useGeminiAnalysis } from '@/hooks/useGeminiAnalysis';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ApiKeyInput } from "./ApiKeyInput";
 
-export function InsightsView() {
+interface InsightsViewProps {
+  file: File;
+}
+
+export function InsightsView({ file }: InsightsViewProps) {
+  const { apiKey } = useApiKey();
+  const prompt = "Analyze the provided chart and extract key insights. Present them as a bulleted list (using markdown). Focus on actionable information that a user can derive from the data.";
+  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
+
+  if (!apiKey) {
+      return <ApiKeyInput />;
+  }
+
   return (
     <Card>
       <CardHeader>
@@ -12,7 +29,24 @@ export function InsightsView() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
-        <p className="text-muted-foreground">This feature is coming soon! The AI will provide actionable insights here.</p>
+        {isLoading && (
+            <div className="space-y-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+            </div>
+        )}
+        {isError && (
+            <Alert variant="destructive">
+                <AlertTitle>Analysis Failed</AlertTitle>
+                <AlertDescription>
+                    {error instanceof Error ? error.message : "An unknown error occurred."} Could your API key be invalid?
+                </AlertDescription>
+            </Alert>
+        )}
+        {data && <p className="text-muted-foreground whitespace-pre-wrap">{data}</p>}
       </CardContent>
     </Card>
   );

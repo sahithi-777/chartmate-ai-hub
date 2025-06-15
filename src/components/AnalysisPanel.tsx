@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -66,7 +65,7 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
             <SummaryView file={file} />
           </TabsContent>
           <TabsContent value="insights" className="mt-4">
-            <InsightsView />
+            <InsightsView file={file} />
           </TabsContent>
           <TabsContent value="quiz" className="mt-4">
             <QuizView />

@@ -1,42 +1,15 @@
 
-import { useState } from 'react';
 import { Bot } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useApiKey } from '@/contexts/ApiKeyContext';
 import { useGeminiAnalysis } from '@/hooks/useGeminiAnalysis';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ApiKeyInput } from "./ApiKeyInput";
 
 interface SummaryViewProps {
   file: File;
 }
-
-const ApiKeyInput = () => {
-    const { setApiKey } = useApiKey();
-    const [key, setKey] = useState("");
-
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Gemini API Key Required</CardTitle>
-                <CardDescription>
-                    Please enter your Google Gemini API key to enable analysis. Your key will be stored locally in your browser.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div className="flex w-full items-center space-x-2">
-                    <Input type="password" placeholder="Enter API Key" value={key} onChange={(e) => setKey(e.target.value)} />
-                    <Button type="submit" onClick={() => setApiKey(key)}>Save Key</Button>
-                </div>
-                <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:underline mt-2 block">
-                    Get an API key from Google AI Studio.
-                </a>
-            </CardContent>
-        </Card>
-    );
-};
 
 export function SummaryView({ file }: SummaryViewProps) {
   const { apiKey } = useApiKey();
@@ -67,7 +40,7 @@ export function SummaryView({ file }: SummaryViewProps) {
             <Alert variant="destructive">
                 <AlertTitle>Analysis Failed</AlertTitle>
                 <AlertDescription>
-                    {error.message} Could your API key be invalid?
+                    {error instanceof Error ? error.message : "An unknown error occurred."} Could your API key be invalid?
                 </AlertDescription>
             </Alert>
         )}

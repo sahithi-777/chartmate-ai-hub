@@ -17,7 +17,7 @@ export async function analyzeChartWithGemini(apiKey: string, file: File, prompt:
     throw new Error("Gemini API key is not set.");
   }
   const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
 
   const imagePart = await fileToGenerativePart(file);
 
