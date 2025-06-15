@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/contexts/AuthContext";
@@ -13,6 +14,7 @@ import { InsightsView } from "./features/InsightsView";
 import { QuizView } from "./features/QuizView";
 import { ForecastView } from "./features/ForecastView";
 import { AnomalyDetectionView } from "./features/AnomalyDetectionView";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface AnalysisPanelProps {
   file: File;
@@ -185,19 +187,26 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
               New Upload
             </Button>
             <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => saveAnalysisMutation.mutate()}
-                disabled={!canSave || saveAnalysisMutation.isPending}
-              >
-                {saveAnalysisMutation.isPending ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Save className="mr-2 h-4 w-4" />
-                )}
-                Save Analysis
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => saveAnalysisMutation.mutate()}
+                    disabled={!canSave || saveAnalysisMutation.isPending}
+                  >
+                    {saveAnalysisMutation.isPending ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : (
+                      <Save className="mr-2 h-4 w-4" />
+                    )}
+                    Save Analysis
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Save analysis to your history.</p>
+                </TooltipContent>
+              </Tooltip>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button variant="outline" size="sm">
@@ -234,12 +243,26 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
                   </div>
                 </PopoverContent>
               </Popover>
-              <Button variant="outline" size="icon" onClick={() => setZoom(z => z * 1.2)}>
-                <ZoomIn className="h-4 w-4" />
-              </Button>
-              <Button variant="outline" size="icon" onClick={() => setZoom(z => z / 1.2)}>
-                <ZoomOut className="h-4 w-4" />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon" onClick={() => setZoom(z => z * 1.2)}>
+                    <ZoomIn className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Zoom In</p>
+                </TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon" onClick={() => setZoom(z => z / 1.2)}>
+                    <ZoomOut className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Zoom Out</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
         </div>
         <Card className="overflow-hidden shadow-lg">

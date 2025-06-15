@@ -6,6 +6,7 @@ import { UploadCloud, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { SampleCharts } from "./SampleCharts";
 
 interface FileUploadProps {
   onFileUpload: (file: File) => void;
@@ -74,22 +75,25 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
 
   return (
     <div className="flex items-center justify-center h-full p-4 animate-fade-in">
-      <Card className="w-full max-w-lg text-center shadow-lg">
+      <Card className="w-full max-w-2xl text-center shadow-lg">
         <CardHeader>
           <CardTitle className="text-2xl">Upload Your Chart</CardTitle>
           <CardDescription>Drag & drop an image or click to select a file</CardDescription>
         </CardHeader>
         <CardContent>
           {!file ? (
-            <div
-              {...getRootProps()}
-              className={`flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
-                isDragActive ? 'border-primary bg-primary/10' : 'border-muted hover:border-primary'
-              }`}
-            >
-              <input {...getInputProps()} />
-              <UploadCloud className="w-16 h-16 text-muted-foreground mb-4" />
-              <p className="text-muted-foreground">Supported: PNG, JPG, SVG (max 10MB)</p>
+            <div>
+              <div
+                {...getRootProps()}
+                className={`flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                  isDragActive ? 'border-primary bg-primary/10' : 'border-muted hover:border-primary'
+                }`}
+              >
+                <input {...getInputProps()} />
+                <UploadCloud className="w-16 h-16 text-muted-foreground mb-4" />
+                <p className="text-muted-foreground">Supported: PNG, JPG, SVG (max 10MB)</p>
+              </div>
+              <SampleCharts onSelectSample={onFileUpload} />
             </div>
           ) : (
             <div className="space-y-4 text-left">
