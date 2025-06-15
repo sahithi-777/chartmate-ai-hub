@@ -7,11 +7,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 interface SummaryViewProps {
   file: File;
+  isActive: boolean;
 }
 
-export function SummaryView({ file }: SummaryViewProps) {
+export function SummaryView({ file, isActive }: SummaryViewProps) {
   const prompt = "Summarize this chart in 2-3 sentences";
-  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
+  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt, isActive);
 
   return (
     <Card>

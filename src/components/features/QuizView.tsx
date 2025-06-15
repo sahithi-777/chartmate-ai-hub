@@ -7,11 +7,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 interface QuizViewProps {
   file: File;
+  isActive: boolean;
 }
 
-export function QuizView({ file }: QuizViewProps) {
+export function QuizView({ file, isActive }: QuizViewProps) {
   const prompt = "Generate 5 multiple choice questions about this chart";
-  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
+  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt, isActive);
 
   return (
     <Card>

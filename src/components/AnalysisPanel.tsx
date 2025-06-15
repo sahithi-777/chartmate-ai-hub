@@ -18,6 +18,7 @@ interface AnalysisPanelProps {
 export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
   const [zoom, setZoom] = useState(1);
   const [imageUrl, setImageUrl] = useState("");
+  const [activeTab, setActiveTab] = useState("summary");
 
   useEffect(() => {
     const url = URL.createObjectURL(file);
@@ -56,7 +57,7 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
         </Card>
       </div>
       <div className="space-y-6">
-        <Tabs defaultValue="summary">
+        <Tabs defaultValue="summary" onValueChange={(value) => setActiveTab(value)}>
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="summary">Summary</TabsTrigger>
             <TabsTrigger value="insights">Insights</TabsTrigger>
@@ -65,19 +66,19 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
             <TabsTrigger value="anomalies">Anomalies</TabsTrigger>
           </TabsList>
           <TabsContent value="summary" className="mt-4">
-            <SummaryView file={file} />
+            <SummaryView file={file} isActive={activeTab === 'summary'} />
           </TabsContent>
           <TabsContent value="insights" className="mt-4">
-            <InsightsView file={file} />
+            <InsightsView file={file} isActive={activeTab === 'insights'} />
           </TabsContent>
           <TabsContent value="quiz" className="mt-4">
-            <QuizView file={file} />
+            <QuizView file={file} isActive={activeTab === 'quiz'} />
           </TabsContent>
           <TabsContent value="forecast" className="mt-4">
-            <ForecastView file={file} />
+            <ForecastView file={file} isActive={activeTab === 'forecast'} />
           </TabsContent>
           <TabsContent value="anomalies" className="mt-4">
-            <AnomalyDetectionView file={file} />
+            <AnomalyDetectionView file={file} isActive={activeTab === 'anomalies'} />
           </TabsContent>
         </Tabs>
       </div>

@@ -2,7 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { analyzeChartWithGemini } from '@/services/geminiService';
 
-export const useGeminiAnalysis = (file: File | null, prompt: string) => {
+export const useGeminiAnalysis = (file: File | null, prompt: string, enabled = true) => {
   return useQuery({
     queryKey: ['gemini-analysis', file?.name, prompt],
     queryFn: async () => {
@@ -11,8 +11,8 @@ export const useGeminiAnalysis = (file: File | null, prompt: string) => {
       }
       return analyzeChartWithGemini(file, prompt);
     },
-    enabled: !!file,
-    retry: 3,
+    enabled: !!file && enabled,
+    retry: 1,
     refetchOnWindowFocus: false,
   });
 };

@@ -7,11 +7,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 interface AnomalyDetectionViewProps {
   file: File;
+  isActive: boolean;
 }
 
-export function AnomalyDetectionView({ file }: AnomalyDetectionViewProps) {
+export function AnomalyDetectionView({ file, isActive }: AnomalyDetectionViewProps) {
   const prompt = "Identify any unusual or outlier data points";
-  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
+  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt, isActive);
 
   return (
     <Card>

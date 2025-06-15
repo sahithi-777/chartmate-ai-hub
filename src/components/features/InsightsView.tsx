@@ -7,11 +7,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 interface InsightsViewProps {
   file: File;
+  isActive: boolean;
 }
 
-export function InsightsView({ file }: InsightsViewProps) {
+export function InsightsView({ file, isActive }: InsightsViewProps) {
   const prompt = "Provide detailed analysis of trends and patterns";
-  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
+  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt, isActive);
 
   return (
     <Card>

@@ -7,11 +7,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 interface ForecastViewProps {
   file: File;
+  isActive: boolean;
 }
 
-export function ForecastView({ file }: ForecastViewProps) {
+export function ForecastView({ file, isActive }: ForecastViewProps) {
   const prompt = "Based on the data trends, predict the next 2-3 data points";
-  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
+  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt, isActive);
 
   return (
     <Card>
