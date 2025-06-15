@@ -1,3 +1,4 @@
+
 import {
   Sidebar,
   SidebarContent,
@@ -11,13 +12,14 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { AreaChart, Bot, HelpCircle, Lightbulb, LineChart, LogOut, Settings } from "lucide-react";
+import { AreaChart, Bot, HelpCircle, Lightbulb, LineChart, LogOut, Settings, Zap } from "lucide-react";
 
 const menuItems = [
   { icon: Bot, label: "Summary", href: "#" },
   { icon: Lightbulb, label: "Insights", href: "#" },
   { icon: HelpCircle, label: "Quiz", href: "#" },
   { icon: LineChart, label: "Forecast", href: "#" },
+  { icon: Zap, label: "Anomalies", href: "#" },
 ];
 
 export function AppSidebar() {

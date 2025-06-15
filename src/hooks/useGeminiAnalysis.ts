@@ -12,7 +12,7 @@ export const useGeminiAnalysis = (file: File | null, prompt: string) => {
       return analyzeChartWithGemini(file, prompt);
     },
     enabled: !!file,
-    retry: false,
+    retry: 3,
     refetchOnWindowFocus: false,
   });
 };

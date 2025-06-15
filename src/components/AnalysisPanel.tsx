@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -7,6 +8,7 @@ import { SummaryView } from "./features/SummaryView";
 import { InsightsView } from "./features/InsightsView";
 import { QuizView } from "./features/QuizView";
 import { ForecastView } from "./features/ForecastView";
+import { AnomalyDetectionView } from "./features/AnomalyDetectionView";
 
 interface AnalysisPanelProps {
   file: File;
@@ -55,11 +57,12 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
       </div>
       <div className="space-y-6">
         <Tabs defaultValue="summary">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="summary">Summary</TabsTrigger>
             <TabsTrigger value="insights">Insights</TabsTrigger>
             <TabsTrigger value="quiz">Quiz</TabsTrigger>
             <TabsTrigger value="forecast">Forecast</TabsTrigger>
+            <TabsTrigger value="anomalies">Anomalies</TabsTrigger>
           </TabsList>
           <TabsContent value="summary" className="mt-4">
             <SummaryView file={file} />
@@ -68,10 +71,13 @@ export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
             <InsightsView file={file} />
           </TabsContent>
           <TabsContent value="quiz" className="mt-4">
-            <QuizView />
+            <QuizView file={file} />
           </TabsContent>
           <TabsContent value="forecast" className="mt-4">
-            <ForecastView />
+            <ForecastView file={file} />
+          </TabsContent>
+          <TabsContent value="anomalies" className="mt-4">
+            <AnomalyDetectionView file={file} />
           </TabsContent>
         </Tabs>
       </div>

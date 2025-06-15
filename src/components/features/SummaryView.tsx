@@ -10,7 +10,7 @@ interface SummaryViewProps {
 }
 
 export function SummaryView({ file }: SummaryViewProps) {
-  const prompt = "In 2-3 sentences, provide a high-level summary of the data presented in this chart.";
+  const prompt = "Summarize this chart in 2-3 sentences";
   const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
 
   return (

@@ -1,24 +1,24 @@
 
-import { Lightbulb } from "lucide-react";
+import { Zap } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGeminiAnalysis } from '@/hooks/useGeminiAnalysis';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
 
-interface InsightsViewProps {
+interface AnomalyDetectionViewProps {
   file: File;
 }
 
-export function InsightsView({ file }: InsightsViewProps) {
-  const prompt = "Provide detailed analysis of trends and patterns";
+export function AnomalyDetectionView({ file }: AnomalyDetectionViewProps) {
+  const prompt = "Identify any unusual or outlier data points";
   const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
 
   return (
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Lightbulb className="h-5 w-5 text-primary" />
-          Key Insights
+          <Zap className="h-5 w-5 text-primary" />
+          Anomaly Detection
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -27,8 +27,6 @@ export function InsightsView({ file }: InsightsViewProps) {
                 <Skeleton className="h-4 w-full" />
                 <Skeleton className="h-4 w-full" />
                 <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-5/6" />
             </div>
         )}
         {isError && (
