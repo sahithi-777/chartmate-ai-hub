@@ -14,31 +14,19 @@ serve(async (req) => {
     return new Response("ok", { headers: corsHeaders });
   }
 
-  if (!GEMINI_API_KEY) {
-    return new Response(
-      JSON.stringify({ error: "GEMINI_API_KEY is not set in project secrets" }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-        status: 500,
-      }
-    );
-  }
-
   try {
+    if (!GEMINI_API_KEY) {
+      throw new Error("GEMINI_API_KEY is not set in project secrets");
+    }
+
     const { prompt, imageBase64, imageMimeType } = await req.json();
 
     if (!prompt || !imageBase64 || !imageMimeType) {
-        return new Response(
-            JSON.stringify({ error: "Missing prompt, imageBase64, or imageMimeType" }),
-            {
-              headers: { ...corsHeaders, "Content-Type": "application/json" },
-              status: 400,
-            }
-        );
+      throw new Error("Missing prompt, imageBase64, or imageMimeType");
     }
 
     const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
     const imagePart: Part = {
       inlineData: {
@@ -56,10 +44,11 @@ serve(async (req) => {
       status: 200,
     });
   } catch (error) {
-    console.error(error);
+    console.error("Error in gemini-analysis function:", error.message);
+    // Always return 200, so client can parse the error message
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
-      status: 500,
+      status: 200,
     });
   }
 });
