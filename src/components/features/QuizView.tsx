@@ -1,9 +1,12 @@
 
-import { HelpCircle } from "lucide-react";
+import { HelpCircle, RefreshCw } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGeminiAnalysis } from '@/hooks/useGeminiAnalysis';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
+import { InteractiveQuiz } from './InteractiveQuiz';
+import { useMemo } from 'react';
+import { Button } from "../ui/button";
 
 interface QuizViewProps {
   file: File;
@@ -11,8 +14,28 @@ interface QuizViewProps {
 }
 
 export function QuizView({ file, isActive }: QuizViewProps) {
-  const prompt = "Generate 5 multiple choice questions about this chart";
-  const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt, isActive);
+  const prompt = "Based on this chart, generate 5 multiple-choice questions in a valid JSON array format. Each object in the array should represent a question and have the following structure: { \"question\": string, \"options\": string[], \"answer\": string, \"explanation\": string }. The 'answer' should be the full text of the correct option. Ensure the JSON is valid and contains no other text or markdown formatting.";
+  const { data, isLoading, isError, error, refetch } = useGeminiAnalysis(file, prompt, isActive);
+
+  const parsedQuizData = useMemo(() => {
+    if (!data) return null;
+    try {
+      // Handle cases where the response might be wrapped in markdown
+      const jsonString = data.match(/```json\n([\s\S]*?)\n```/)?.[1] || data;
+      const parsed = JSON.parse(jsonString);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+      return null;
+    } catch (e) {
+      console.error("Failed to parse quiz data:", e);
+      return null;
+    }
+  }, [data]);
+  
+  const handleGenerateNew = () => {
+    refetch();
+  };
 
   return (
     <Card>
@@ -28,10 +51,6 @@ export function QuizView({ file, isActive }: QuizViewProps) {
                 <Skeleton className="h-4 w-full" />
                 <Skeleton className="h-4 w-full" />
                 <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-5/6" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
             </div>
         )}
         {isError && (
@@ -42,7 +61,21 @@ export function QuizView({ file, isActive }: QuizViewProps) {
                 </AlertDescription>
             </Alert>
         )}
-        {data && <p className="text-muted-foreground whitespace-pre-wrap">{data}</p>}
+        {data && parsedQuizData && (
+          <InteractiveQuiz questions={parsedQuizData} onGenerateNew={handleGenerateNew} />
+        )}
+        {data && !isLoading && !parsedQuizData && (
+          <Alert>
+            <AlertTitle>Could not load quiz</AlertTitle>
+            <AlertDescription>
+              The AI generated an invalid format for the quiz. You can try generating a new one.
+            </AlertDescription>
+            <Button variant="outline" size="sm" onClick={handleGenerateNew} className="mt-4">
+              <RefreshCw className="mr-2 h-4 w-4" />
+              Generate New Quiz
+            </Button>
+          </Alert>
+        )}
       </CardContent>
     </Card>
   );
