@@ -37,7 +37,7 @@ export function InsightsView({ file }: InsightsViewProps) {
                 <AlertDescription>
                     {error instanceof Error ? error.message : "An unknown error occurred."}
                 </AlertDescription>
-            </Alergitt>
+            </Alert>
         )}
         {data && <p className="text-muted-foreground whitespace-pre-wrap">{data}</p>}
       </CardContent>
