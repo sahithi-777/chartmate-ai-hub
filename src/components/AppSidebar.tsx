@@ -1,11 +1,9 @@
-
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
-  SidebarMenuButton,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
@@ -38,12 +36,12 @@ export function AppSidebar() {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.label}>
-                  <SidebarMenuButton asChild variant="ghost" className="w-full justify-start gap-2">
+                  <Button asChild variant="ghost" className="w-full justify-start gap-2 text-base font-normal text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                     <a href={item.href}>
                       <item.icon className="h-5 w-5" />
                       <span>{item.label}</span>
                     </a>
-                  </SidebarMenuButton>
+                  </Button>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -54,18 +52,18 @@ export function AppSidebar() {
         <Separator />
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild variant="ghost" className="w-full justify-start gap-2">
+            <Button asChild variant="ghost" className="w-full justify-start gap-2 text-base font-normal text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
               <a href="#">
                 <Settings className="h-5 w-5" />
                 <span>Settings</span>
               </a>
-            </SidebarMenuButton>
+            </Button>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton variant="ghost" className="w-full justify-start gap-2">
+            <Button variant="ghost" className="w-full justify-start gap-2 text-base font-normal text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
               <LogOut className="h-5 w-5" />
               <span>Logout</span>
-            </SidebarMenuButton>
+            </Button>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
