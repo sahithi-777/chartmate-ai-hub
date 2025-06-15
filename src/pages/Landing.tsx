@@ -56,13 +56,13 @@ const LandingPage = () => {
                 </div>
                 <div className="flex flex-col gap-4 min-[400px]:flex-row">
                   <Button asChild size="lg">
-                    <Link to="/">Upload Your First Chart</Link>
+                    <Link to="/dashboard">Upload Your First Chart</Link>
                   </Button>
                 </div>
               </div>
               <div className="flex items-center justify-center">
                 <img
-                  src="/photo-1460925895917-afdab827c52f"
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80"
                   width="550"
                   height="550"
                   alt="Hero"
