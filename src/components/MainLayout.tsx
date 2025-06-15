@@ -1,3 +1,4 @@
+
 import { Navigate, Route, Routes, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Loader2 } from "lucide-react";
@@ -5,6 +6,8 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import Index from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
+import Profile from "@/pages/Profile";
+import Guide from "@/pages/Guide";
 
 export const MainLayout = () => {
   const { user, loading } = useAuth();
@@ -28,6 +31,8 @@ export const MainLayout = () => {
         <main className="flex-1 flex flex-col">
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="guide" element={<Guide />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

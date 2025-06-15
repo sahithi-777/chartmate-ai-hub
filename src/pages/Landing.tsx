@@ -56,7 +56,7 @@ const LandingPage = () => {
                 </div>
                 <div className="flex flex-col gap-4 min-[400px]:flex-row">
                   <Button asChild size="lg">
-                    <Link to="/auth">Upload Your First Chart</Link>
+                    <Link to="/dashboard">Upload Your First Chart</Link>
                   </Button>
                 </div>
               </div>
@@ -66,7 +66,7 @@ const LandingPage = () => {
                   width="550"
                   height="550"
                   alt="Hero"
-                  className="mx-auto aspect-square overflow-hidden rounded-xl object-cover"
+                  className="mx-auto aspect-video overflow-hidden rounded-xl object-cover"
                 />
               </div>
             </div>

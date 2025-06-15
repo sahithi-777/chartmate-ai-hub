@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { AreaChart, Bot, HelpCircle, Lightbulb, LineChart, LogOut, Settings, Zap } from "lucide-react";
+import { AreaChart, Bot, HelpCircle, Lightbulb, LineChart, LogOut, Settings, Zap, BookOpen } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -66,10 +66,18 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <Button asChild variant="ghost" className="w-full justify-start gap-2 text-base font-normal text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
-              <a href="#">
+              <Link to="/dashboard/profile">
                 <Settings className="h-5 w-5" />
-                <span>Settings</span>
-              </a>
+                <span>Profile</span>
+              </Link>
+            </Button>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <Button asChild variant="ghost" className="w-full justify-start gap-2 text-base font-normal text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+              <Link to="/dashboard/guide">
+                <BookOpen className="h-5 w-5" />
+                <span>Guide</span>
+              </Link>
             </Button>
           </SidebarMenuItem>
           <SidebarMenuItem>
