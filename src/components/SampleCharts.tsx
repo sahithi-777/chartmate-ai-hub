@@ -12,7 +12,7 @@ const samples = [
   { name: 'Sales Data 2024', url: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80', description: 'Monthly sales performance' },
   { name: 'User Engagement', url: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80', description: 'Daily active users' },
   { name: 'Stock Performance', url: 'https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800&q=80', description: 'Stock market trends' },
-  { name: 'Weather Patterns', url: 'https://images.unsplash.com/photo-1561476638-3e0d493b5b46?w=800&q=80', description: 'Temp. & precipitation' },
+  { name: 'Weather Patterns', url: 'https://images.unsplash.com/photo-1613753833842-012175939999?w=800&q=80', description: 'Temp. & precipitation' },
 ];
 
 export function SampleCharts({ onSelectSample }: SampleChartsProps) {
