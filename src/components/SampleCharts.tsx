@@ -22,15 +22,15 @@ export function SampleCharts({ onSelectSample }: SampleChartsProps) {
     setLoadingSample(sample.name);
     toast.info("Loading sample chart...");
     try {
-      // Using a cors proxy to avoid cors issues from unsplash
-      const response = await fetch(`https://cors-anywhere.herokuapp.com/${sample.url}`);
-      if (!response.ok) throw new Error("Failed to fetch image");
+      // Fetching image directly without CORS proxy
+      const response = await fetch(sample.url);
+      if (!response.ok) throw new Error(`Failed to fetch image: ${response.statusText}`);
       const blob = await response.blob();
       const file = new File([blob], `${sample.name.replace(/\s/g, '_')}.jpg`, { type: 'image/jpeg' });
       onSelectSample(file);
     } catch (error) {
       console.error("Failed to load sample chart:", error);
-      toast.error("Could not load sample chart. Please try another one.");
+      toast.error("Could not load sample chart. Please try another one or upload your own.");
     } finally {
       setLoadingSample(null);
     }
