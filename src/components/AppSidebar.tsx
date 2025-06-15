@@ -1,3 +1,4 @@
+
 import {
   Sidebar,
   SidebarContent,
@@ -11,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { AreaChart, Bot, HelpCircle, Lightbulb, LineChart, LogOut, Settings, Zap, BookOpen, Archive, Wand2 } from "lucide-react";
+import { AreaChart, Bot, HelpCircle, Lightbulb, LineChart, LogOut, Settings, Zap, BookOpen, Archive, Wand2, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Link, useLocation } from "react-router-dom";
@@ -34,7 +35,12 @@ export function AppSidebar() {
     navigate('/');
   };
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => {
+    if (path === '/dashboard') {
+      return location.pathname === '/dashboard' || location.pathname === '/dashboard/';
+    }
+    return location.pathname === path;
+  };
 
   return (
     <Sidebar>
@@ -66,33 +72,41 @@ export function AppSidebar() {
       <SidebarFooter className="p-4 flex flex-col gap-2">
         <Separator />
         <SidebarMenu>
+           <SidebarMenuItem>
+            <Button asChild variant={isActive('/dashboard') ? 'secondary' : 'ghost'} className="w-full justify-start gap-2 text-base font-normal">
+              <Link to="/dashboard">
+                <LayoutDashboard className="h-5 w-5" />
+                <span>Dashboard</span>
+              </Link>
+            </Button>
+          </SidebarMenuItem>
           <SidebarMenuItem>
-            <Button asChild variant={isActive('/surprise-me') ? 'secondary' : 'ghost'} className="w-full justify-start gap-2 text-base font-normal">
-              <Link to="/surprise-me">
+            <Button asChild variant={isActive('/dashboard/surprise-me') ? 'secondary' : 'ghost'} className="w-full justify-start gap-2 text-base font-normal">
+              <Link to="/dashboard/surprise-me">
                 <Wand2 className="h-5 w-5" />
                 <span>Surprise Me</span>
               </Link>
             </Button>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Button asChild variant={isActive('/history') ? 'secondary' : 'ghost'} className="w-full justify-start gap-2 text-base font-normal">
-              <Link to="/history">
+            <Button asChild variant={isActive('/dashboard/history') ? 'secondary' : 'ghost'} className="w-full justify-start gap-2 text-base font-normal">
+              <Link to="/dashboard/history">
                 <Archive className="h-5 w-5" />
                 <span>History</span>
               </Link>
             </Button>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Button asChild variant={isActive('/profile') ? 'secondary' : 'ghost'} className="w-full justify-start gap-2 text-base font-normal">
-              <Link to="/profile">
+            <Button asChild variant={isActive('/dashboard/profile') ? 'secondary' : 'ghost'} className="w-full justify-start gap-2 text-base font-normal">
+              <Link to="/dashboard/profile">
                 <Settings className="h-5 w-5" />
                 <span>Profile</span>
               </Link>
             </Button>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Button asChild variant={isActive('/guide') ? 'secondary' : 'ghost'} className="w-full justify-start gap-2 text-base font-normal">
-              <Link to="/guide">
+            <Button asChild variant={isActive('/dashboard/guide') ? 'secondary' : 'ghost'} className="w-full justify-start gap-2 text-base font-normal">
+              <Link to="/dashboard/guide">
                 <BookOpen className="h-5 w-5" />
                 <span>Guide</span>
               </Link>
