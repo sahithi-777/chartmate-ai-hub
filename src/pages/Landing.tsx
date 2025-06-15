@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
-import { AreaChart, Bot, FileText, Lightbulb, Zap } from "lucide-react";
+import { AreaChart, Bot, FileText, Lightbulb, Loader2 } from "lucide-react";
 import { Link, Navigate } from "react-router-dom";
 
 const LandingPage = () => {
@@ -10,7 +10,7 @@ const LandingPage = () => {
   if (loading) {
     return (
       <div className="flex h-screen w-full items-center justify-center">
-        {/* You can add a spinner here */}
+        <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
   }
@@ -21,7 +21,7 @@ const LandingPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <header className="px-4 lg:px-6 h-16 flex items-center">
+      <header className="px-4 lg:px-6 h-16 flex items-center sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <Link to="#" className="flex items-center justify-center">
           <AreaChart className="h-6 w-6 text-primary" />
           <span className="ml-2 text-xl font-semibold">ChartMate++</span>
@@ -42,7 +42,7 @@ const LandingPage = () => {
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48">
           <div className="container px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-              <div className="flex flex-col justify-center space-y-4">
+              <div className="flex flex-col justify-center space-y-4 animate-fade-in">
                 <div className="space-y-2">
                   <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
                     Unlock Insights from Your Charts with AI
@@ -60,11 +60,12 @@ const LandingPage = () => {
                 </div>
               </div>
               <img
-                src="/placeholder.svg"
+                src="/photo-1460925895917-afdab827c52f"
                 width="550"
                 height="550"
                 alt="Hero"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square"
+                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover sm:w-full lg:order-last lg:aspect-square animate-fade-in"
+                style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}
               />
             </div>
           </div>
@@ -82,21 +83,21 @@ const LandingPage = () => {
               </div>
             </div>
             <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3 lg:gap-12">
-              <div className="grid gap-1 text-center">
+              <div className="grid gap-1 text-center animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'forwards', opacity: 0 }}>
                 <FileText className="h-10 w-10 mx-auto text-primary" />
                 <h3 className="text-xl font-bold">AI Summaries</h3>
                 <p className="text-muted-foreground">
                   Get concise, AI-generated summaries of your charts instantly.
                 </p>
               </div>
-              <div className="grid gap-1 text-center">
+              <div className="grid gap-1 text-center animate-fade-in" style={{ animationDelay: '0.6s', animationFillMode: 'forwards', opacity: 0 }}>
                 <Lightbulb className="h-10 w-10 mx-auto text-primary" />
                 <h3 className="text-xl font-bold">Deep Insights</h3>
                 <p className="text-muted-foreground">
                   Discover hidden trends and patterns you might have missed.
                 </p>
               </div>
-              <div className="grid gap-1 text-center">
+              <div className="grid gap-1 text-center animate-fade-in" style={{ animationDelay: '0.8s', animationFillMode: 'forwards', opacity: 0 }}>
                 <Bot className="h-10 w-10 mx-auto text-primary" />
                 <h3 className="text-xl font-bold">Interactive Quizzes</h3>
                 <p className="text-muted-foreground">
@@ -111,10 +112,17 @@ const LandingPage = () => {
         <p className="text-xs text-muted-foreground">
           &copy; 2025 ChartMate++. All rights reserved.
         </p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link to="#" className="text-xs hover:underline underline-offset-4">
+            Terms of Service
+          </Link>
+          <Link to="#" className="text-xs hover:underline underline-offset-4">
+            Privacy
+          </Link>
+        </nav>
       </footer>
     </div>
   );
 };
 
 export default LandingPage;
-
