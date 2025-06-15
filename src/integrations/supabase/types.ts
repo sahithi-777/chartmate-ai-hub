@@ -9,7 +9,66 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      analyses: {
+        Row: {
+          anomalies_data: Json | null
+          created_at: string
+          file_name: string
+          forecast_data: Json | null
+          id: string
+          insights: string | null
+          quiz_data: Json | null
+          summary: string | null
+          user_id: string
+        }
+        Insert: {
+          anomalies_data?: Json | null
+          created_at?: string
+          file_name: string
+          forecast_data?: Json | null
+          id?: string
+          insights?: string | null
+          quiz_data?: Json | null
+          summary?: string | null
+          user_id: string
+        }
+        Update: {
+          anomalies_data?: Json | null
+          created_at?: string
+          file_name?: string
+          forecast_data?: Json | null
+          id?: string
+          insights?: string | null
+          quiz_data?: Json | null
+          summary?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          id: string
+          updated_at: string | null
+          username: string | null
+          website: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          id: string
+          updated_at?: string | null
+          username?: string | null
+          website?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          id?: string
+          updated_at?: string | null
+          username?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
