@@ -8,6 +8,7 @@ import Index from "@/pages/Index";
 import NotFound from "@/pages/NotFound";
 import Profile from "@/pages/Profile";
 import Guide from "@/pages/Guide";
+import History from "@/pages/History";
 
 export const MainLayout = () => {
   const { user, loading } = useAuth();
@@ -33,6 +34,7 @@ export const MainLayout = () => {
             <Route path="/" element={<Index />} />
             <Route path="profile" element={<Profile />} />
             <Route path="guide" element={<Guide />} />
+            <Route path="history" element={<History />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
