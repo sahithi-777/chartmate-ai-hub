@@ -1,24 +1,16 @@
-
 import { Lightbulb } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useApiKey } from '@/contexts/ApiKeyContext';
 import { useGeminiAnalysis } from '@/hooks/useGeminiAnalysis';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ApiKeyInput } from "./ApiKeyInput";
 
 interface InsightsViewProps {
   file: File;
 }
 
 export function InsightsView({ file }: InsightsViewProps) {
-  const { apiKey } = useApiKey();
   const prompt = "Analyze the provided chart and extract key insights. Present them as a bulleted list (using markdown). Focus on actionable information that a user can derive from the data.";
   const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
-
-  if (!apiKey) {
-      return <ApiKeyInput />;
-  }
 
   return (
     <Card>
@@ -42,7 +34,7 @@ export function InsightsView({ file }: InsightsViewProps) {
             <Alert variant="destructive">
                 <AlertTitle>Analysis Failed</AlertTitle>
                 <AlertDescription>
-                    {error instanceof Error ? error.message : "An unknown error occurred."} Could your API key be invalid?
+                    {error instanceof Error ? error.message : "An unknown error occurred."}
                 </AlertDescription>
             </Alert>
         )}

@@ -1,24 +1,16 @@
-
 import { Bot } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useApiKey } from '@/contexts/ApiKeyContext';
 import { useGeminiAnalysis } from '@/hooks/useGeminiAnalysis';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Skeleton } from '@/components/ui/skeleton';
-import { ApiKeyInput } from "./ApiKeyInput";
 
 interface SummaryViewProps {
   file: File;
 }
 
 export function SummaryView({ file }: SummaryViewProps) {
-  const { apiKey } = useApiKey();
   const prompt = "In 2-3 sentences, provide a high-level summary of the data presented in this chart.";
   const { data, isLoading, isError, error } = useGeminiAnalysis(file, prompt);
-
-  if (!apiKey) {
-      return <ApiKeyInput />;
-  }
 
   return (
     <Card>
@@ -40,7 +32,7 @@ export function SummaryView({ file }: SummaryViewProps) {
             <Alert variant="destructive">
                 <AlertTitle>Analysis Failed</AlertTitle>
                 <AlertDescription>
-                    {error instanceof Error ? error.message : "An unknown error occurred."} Could your API key be invalid?
+                    {error instanceof Error ? error.message : "An unknown error occurred."}
                 </AlertDescription>
             </Alert>
         )}
