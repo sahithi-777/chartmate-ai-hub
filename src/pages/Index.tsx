@@ -1,11 +1,25 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from "react";
+import { Header } from "@/components/Header";
+import { FileUpload } from "@/components/FileUpload";
+import { AnalysisPanel } from "@/components/AnalysisPanel";
 
 const Index = () => {
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+
+  const handleFileUpload = (file: File) => {
+    setUploadedFile(file);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="flex flex-col h-full">
+      <Header title="Dashboard" />
+      <div className="flex-1 overflow-auto">
+        {!uploadedFile ? (
+          <FileUpload onFileUpload={handleFileUpload} />
+        ) : (
+          <AnalysisPanel />
+        )}
       </div>
     </div>
   );
