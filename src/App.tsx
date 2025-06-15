@@ -8,6 +8,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { ApiKeyProvider } from "@/contexts/ApiKeyContext";
 
 const queryClient = new QueryClient();
 
@@ -16,19 +17,21 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <SidebarProvider>
-          <div className="flex min-h-screen w-full bg-background text-foreground">
-            <AppSidebar />
-            <main className="flex-1 flex flex-col">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-          </div>
-        </SidebarProvider>
-      </BrowserRouter>
+      <ApiKeyProvider>
+        <BrowserRouter>
+          <SidebarProvider>
+            <div className="flex min-h-screen w-full bg-background text-foreground">
+              <AppSidebar />
+              <main className="flex-1 flex flex-col">
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+            </div>
+          </SidebarProvider>
+        </BrowserRouter>
+      </ApiKeyProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

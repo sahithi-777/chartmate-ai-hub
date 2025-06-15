@@ -12,8 +12,7 @@ export function QuizView() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
-        <p className="text-muted-foreground">Test your knowledge with an AI-generated quiz about your chart.</p>
-        <p className="text-sm text-blue-400">Connecting to Gemini for analysis...</p>
+        <p className="text-muted-foreground">This feature is coming soon! The AI will generate a quiz about your chart here.</p>
       </CardContent>
     </Card>
   );

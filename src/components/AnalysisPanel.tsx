@@ -1,22 +1,56 @@
 
+import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { ZoomIn, ZoomOut } from "lucide-react";
 import { SummaryView } from "./features/SummaryView";
 import { InsightsView } from "./features/InsightsView";
 import { QuizView } from "./features/QuizView";
 import { ForecastView } from "./features/ForecastView";
 
-export function AnalysisPanel() {
+interface AnalysisPanelProps {
+  file: File;
+  onClearFile: () => void;
+}
+
+export function AnalysisPanel({ file, onClearFile }: AnalysisPanelProps) {
+  const [zoom, setZoom] = useState(1);
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    const url = URL.createObjectURL(file);
+    setImageUrl(url);
+
+    return () => {
+      URL.revokeObjectURL(url);
+    };
+  }, [file]);
+
   return (
     <div className="grid md:grid-cols-2 gap-6 p-4 md:p-6 animate-fade-in">
-      <div className="space-y-6">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+            <Button variant="outline" size="sm" onClick={onClearFile}>
+              New Upload
+            </Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="icon" onClick={() => setZoom(z => z * 1.2)}>
+                <ZoomIn className="h-4 w-4" />
+              </Button>
+              <Button variant="outline" size="icon" onClick={() => setZoom(z => z / 1.2)}>
+                <ZoomOut className="h-4 w-4" />
+              </Button>
+            </div>
+        </div>
         <Card className="overflow-hidden shadow-lg">
-          <CardContent className="p-0">
-             <img
-              src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=2070&auto=format&fit=crop"
+          <CardContent className="p-0 flex items-center justify-center bg-muted/20 min-h-[300px]">
+             {imageUrl && <img
+              src={imageUrl}
               alt="Chart for analysis"
-              className="w-full h-auto object-cover"
-            />
+              className="w-full h-auto object-contain transition-transform duration-300"
+              style={{ transform: `scale(${zoom})` }}
+            />}
           </CardContent>
         </Card>
       </div>
@@ -29,7 +63,7 @@ export function AnalysisPanel() {
             <TabsTrigger value="forecast">Forecast</TabsTrigger>
           </TabsList>
           <TabsContent value="summary" className="mt-4">
-            <SummaryView />
+            <SummaryView file={file} />
           </TabsContent>
           <TabsContent value="insights" className="mt-4">
             <InsightsView />

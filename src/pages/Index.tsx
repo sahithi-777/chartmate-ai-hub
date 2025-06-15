@@ -10,6 +10,10 @@ const Index = () => {
   const handleFileUpload = (file: File) => {
     setUploadedFile(file);
   };
+  
+  const handleClearFile = () => {
+    setUploadedFile(null);
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -18,7 +22,7 @@ const Index = () => {
         {!uploadedFile ? (
           <FileUpload onFileUpload={handleFileUpload} />
         ) : (
-          <AnalysisPanel />
+          <AnalysisPanel file={uploadedFile} onClearFile={handleClearFile} />
         )}
       </div>
     </div>

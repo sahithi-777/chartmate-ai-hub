@@ -12,8 +12,7 @@ export function ForecastView() {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
-        <p className="text-muted-foreground">AI-powered forecasting based on your chart data will be shown here.</p>
-        <p className="text-sm text-blue-400">Connecting to Gemini for analysis...</p>
+        <p className="text-muted-foreground">This feature is coming soon! The AI will provide a forecast based on your data.</p>
       </CardContent>
     </Card>
   );
